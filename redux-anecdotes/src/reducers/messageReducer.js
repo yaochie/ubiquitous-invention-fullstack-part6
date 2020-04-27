@@ -7,4 +7,18 @@ const messageReducer = (state = 'message', action) => {
   }
 } 
 
+export const setMessage = (message) => {
+  return {
+    type: 'SET_MESSAGE',
+    data: message
+  }
+}
+
+export const clearMessage = () => {
+  return {
+    type: 'SET_MESSAGE',
+    data: null
+  }
+}
+
 export default messageReducer
