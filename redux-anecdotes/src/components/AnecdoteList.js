@@ -24,7 +24,7 @@ const Anecdote = ({ anecdote }) => {
 
 const AnecdoteList = () => {
   const anecdotes = useSelector(state =>
-    state.sort((a, b) => a.votes < b.votes)
+    state.anecdotes.sort((a, b) => a.votes < b.votes)
   )
 
   return (
