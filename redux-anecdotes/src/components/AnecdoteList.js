@@ -27,9 +27,15 @@ const Anecdote = ({ anecdote }) => {
 }
 
 const AnecdoteList = () => {
-  const anecdotes = useSelector(state =>
-    state.anecdotes.sort((a, b) => a.votes < b.votes)
-  )
+  const anecdotes = useSelector(state => {
+    if (state.filter === '') {
+      return state.anecdotes
+    }
+    return state.anecdotes.filter(a =>
+      a.content.toLowerCase().includes(state.filter.toLowerCase())
+    )
+  })
+  anecdotes.sort((a, b) => a.votes < b.votes)
 
   return (
     <div>
