@@ -1,26 +1,22 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
 import { connect } from 'react-redux'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { setMessage } from '../reducers/messageReducer'
 
-const Anecdote = ({ anecdote }) => {
-  const dispatch = useDispatch()
-
-  const vote = (anecdote) => {
-    dispatch(voteAnecdote(anecdote.id)) 
-
-    dispatch(setMessage(`Voted for '${anecdote.content}'`, 5))
+const Anecdote = (props) => {
+  const vote = async (anecdote) => {
+    await props.voteAnecdote(anecdote.id)
+    props.setMessage(`Voted for '${anecdote.content}'`, 5)
   }
 
   return (
-    <div key={anecdote.id}>
+    <div key={props.anecdote.id}>
       <div>
-        {anecdote.content}
+        {props.anecdote.content}
       </div>
       <div>
-        has {anecdote.votes}
-        <button onClick={() => vote(anecdote)}>vote</button>
+        has {props.anecdote.votes}
+        <button onClick={() => vote(props.anecdote)}>vote</button>
       </div>
     </div>
   )
@@ -39,7 +35,12 @@ const AnecdoteList = (props) => {
   return (
     <div>
       {anecdotes.map(anecdote =>
-        <Anecdote key={anecdote.id} anecdote={anecdote} />
+        <Anecdote
+          key={anecdote.id}
+          anecdote={anecdote}
+          voteAnecdote={props.voteAnecdote}
+          setMessage={props.setMessage}
+        />
       )}
     </div>
   )
@@ -52,5 +53,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(AnecdoteList)
+const mapDispatchToProps = { voteAnecdote, setMessage }
+
+export default connect(mapStateToProps, mapDispatchToProps)(AnecdoteList)
 
